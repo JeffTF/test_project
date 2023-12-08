@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_practice_project/bloc/reservation/reservation_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_practice_project/bloc/reservation/reservation_bloc.dart';
+import 'package:my_practice_project/screens/reserve_screen/booking_tab/choosing_guest.dart';
 
 class BookingTimeDisplay extends StatelessWidget {
   const BookingTimeDisplay({super.key, required this.time});
@@ -41,7 +42,6 @@ class BookingTimeLunch extends StatelessWidget {
       alignment: WrapAlignment.start,
       children: lunchTimeList.map((e) => TimeContainer(
         text: e,
-        changeColor: true,
       )).toList(),
     );
   }
@@ -63,7 +63,7 @@ class BookingTimeDinner extends StatelessWidget {
       alignment: WrapAlignment.start,
       children: dinnerTimeList.map((e) => TimeContainer(
         text: e,
-        changeColor: true,
+
       )).toList(),
     );
   }
@@ -71,9 +71,9 @@ class BookingTimeDinner extends StatelessWidget {
 
 
 class TimeContainer extends StatefulWidget {
-    const TimeContainer({super.key, required this.text,  required this.changeColor});
+    const TimeContainer({super.key, required this.text });
 final String text ;
-final bool changeColor ;
+
 
   @override
   State<TimeContainer> createState() => _TimeContainerState();
@@ -82,12 +82,13 @@ final bool changeColor ;
 class _TimeContainerState extends State<TimeContainer> {
   TimeOfDay? _selectedTime ;
   TimeOfDay _currentTime = TimeOfDay.now();
+  
   @override
   Widget build(BuildContext context) {
     _selectedTime = BlocProvider.of<ReservationBloc>(context).getReservationTime;
     return Container(
       decoration: BoxDecoration(
-        color: widget.changeColor ? Colors.white : Colors.black,
+        color: true? Colors.white : Colors.black,
         border: Border.all(color: Colors.deepOrangeAccent.withOpacity(0.5)),
         borderRadius: BorderRadius.circular(10),
         // boxShadow: [BoxShadow(
@@ -99,10 +100,10 @@ class _TimeContainerState extends State<TimeContainer> {
       ),
       child: TextButton(
         onPressed: (){
-          // widget.changeColor ;
-          _selectedTime;
+           BlocProvider.of<ReservationBloc>(context).setReservationTime();
+         // print('$text');
         },
-        child: Text(widget.text,style: TextStyle(color: widget.changeColor ? Colors.black : Colors.white, fontSize: 12),),
+        child: Text(widget.text,style: TextStyle(color: true ? Colors.black : Colors.white, fontSize: 12),),
       )
     );
   }
